@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'Routes.dart';
-import 'Screens/RootApp.dart';
 import 'Splash/SplashScreen.dart';
 
 void main() {

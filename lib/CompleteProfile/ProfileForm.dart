@@ -3,7 +3,8 @@ import 'package:myshopping_app/Component/Constatns.dart';
 import 'package:myshopping_app/Component/CustomSuffix.dart';
 import 'package:myshopping_app/Component/DefaultButton.dart';
 import 'package:myshopping_app/Component/FormError.dart';
-import 'package:myshopping_app/Screens/HomeScreenroute.dart';
+import 'package:myshopping_app/Screens/Home/HomeScreen.dart';
+
 
 import '../SizeConfig.dart';
 

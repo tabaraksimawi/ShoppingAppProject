@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/Component/DefaultButton.dart';
-import 'package:myshopping_app/Screens/HomeScreenroute.dart';
+import 'package:myshopping_app/Screens/Home/HomeScreen.dart';
 
 import '../SizeConfig.dart';
 

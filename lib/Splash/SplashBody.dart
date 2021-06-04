@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/Component/Constatns.dart';
 import 'package:myshopping_app/Component/DefaultButton.dart';
+import 'package:myshopping_app/Screens/Home/HomeScreen.dart';
 import 'package:myshopping_app/SignIn/SignInScreen.dart';
 
 
@@ -16,7 +17,7 @@ class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
     {
-      "text": "Welcome to J, Let’s shop!",
+      "text": "Welcome, Let’s shop!",
       "image": "assets/images/splash_1.png"
     },
     {
@@ -68,11 +69,18 @@ class _BodyState extends State<Body> {
                     ),
                     Spacer(flex: 3),
                     DefaultButton(
-                      text: "Continue",
+                      text: "Sign In",
                       press: () {
                        Navigator.pushNamed(context, SignInScreen.routeName);
                       },
                   ),
+                    Spacer(flex: 1),
+                    DefaultButton(
+                      text: "Continue As A Guest",
+                      press: () {
+                        Navigator.pushNamed(context, HomeScreen.routeName);
+                      },
+                    ),
                     Spacer(),
                   ],
                 ),
