@@ -58,10 +58,6 @@ import 'package:myshopping_app/Models/CategoriesModel.dart';
         padding: const EdgeInsets.all(40),
         child: Row(
           children: [
-            SvgPicture.asset(
-              "assets/icons/menu.svg",
-              height: 25,
-            ),
             Expanded(
               child: Container(),
             ),

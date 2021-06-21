@@ -35,7 +35,6 @@ class ShoesCards extends StatelessWidget {
               print("Navigate to Detail Page");
             },
             child: Container(
-              // now we dont want this fix height and width it was for demo
               // height: 220,
               // width: 150,
               decoration: BoxDecoration(

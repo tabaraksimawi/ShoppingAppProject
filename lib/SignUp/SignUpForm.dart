@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/CompleteProfile/ProfileScreen.dart';
 import 'package:myshopping_app/Component/Constatns.dart';
@@ -15,8 +16,8 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  String email;
-  String password;
+  FirebaseAuth _auth=FirebaseAuth.instance;
+  String email , password;
   String conform_password;
   bool remember = false;
   final List<String> errors = [];
@@ -50,14 +51,22 @@ class _SignUpFormState extends State<SignUpForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "Continue",
-            press: () {
+            press: () async {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+                try{
+                  UserCredential userCredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                      email:email,
+
+                      password:password);
+                  Navigator.pushNamed(context,CompleteProfileScreen.routeName);
+                }
+                catch(e){
+                  print("ERROR");
+                }
               }
-            },
-          ),
+            }),
         ],
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/Component/Constatns.dart';
 import 'package:myshopping_app/Component/CustomSuffix.dart';
@@ -15,10 +17,13 @@ class SignForm extends StatefulWidget {
 }
 
 class _SignFormState extends State<SignForm> {
+  @override
+ // final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
-  String email;
-  String password;
+  String _email;
+  String _password;
   bool remember = false;
+
   final List<String> errors = [];
 
   void addError({String error}) {
@@ -72,12 +77,21 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
             text: "Continue",
-            press: () {
+            press: () async {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+              //  Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                try{
+                  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: _email,
+                      password: _password);
+                  Navigator.pushNamed(context,LoginSuccessScreen.routeName);
+                }
+                catch(e){
+                  print("error");
+                }
               }
             },
           ),
@@ -89,7 +103,7 @@ class _SignFormState extends State<SignForm> {
   TextFormField buildPasswordFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => password = newValue,
+      onSaved: (newValue) => _password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
@@ -111,8 +125,6 @@ class _SignFormState extends State<SignForm> {
       decoration: InputDecoration(
         labelText: "Password",
         hintText: "Enter your password",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
@@ -122,7 +134,7 @@ class _SignFormState extends State<SignForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => email = newValue,
+      onSaved: (newValue) => _email = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kEmailNullError);
@@ -144,8 +156,6 @@ class _SignFormState extends State<SignForm> {
       decoration: InputDecoration(
         labelText: "Email",
         hintText: "Enter your email",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
       ),
