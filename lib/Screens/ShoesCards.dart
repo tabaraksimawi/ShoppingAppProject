@@ -26,7 +26,6 @@ class ShoesCards extends StatelessWidget {
                         shoeName: shoeListModel.shoeName,
                         rating: shoeListModel.rating,
                         showpersentage: shoeListModel.showpersentage,
-                        activeheart: shoeListModel.activeheart,
                         persentage: shoeListModel.persentage,
                         showcasebgcolor: shoeListModel.showcasebgcolor,
                         lightShowcasebgcolor:
@@ -88,18 +87,18 @@ class ShoesCards extends StatelessWidget {
                             height: 30,
                             width: 50,
                             decoration: BoxDecoration(
-                              color: shoeListModel.activeheart
-                                  ? DefaultElements.kdefaultredcolor
-                                  : Colors.transparent,
-                              shape: BoxShape.circle,
+                           //   color: shoeListModel.activeheart
+                                //  ? DefaultElements.kdefaultredcolor
+                               //   : Colors.transparent,
+                            //  shape: BoxShape.circle,
                             ),
                             child: Center(
                               child: SvgPicture.asset(
                                 "assets/icons/heart.svg",
                                 height: 20,
-                                color: shoeListModel.activeheart
-                                    ? Colors.white
-                                    : DefaultElements.knavbariconcolor,
+                             //   color: shoeListModel.activeheart
+                                  color: Colors.grey
+                                  //  : DefaultElements.knavbariconcolor,
                               ),
                             ),
                           ),

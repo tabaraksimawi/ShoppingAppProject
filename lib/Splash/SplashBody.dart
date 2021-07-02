@@ -5,6 +5,7 @@ import 'package:myshopping_app/Screens/Home/HomeScreen.dart';
 import 'package:myshopping_app/SignIn/SignInScreen.dart';
 
 
+
 import '../SizeConfig.dart';
 import 'SplashContent.dart';
 
@@ -69,7 +70,7 @@ class _BodyState extends State<Body> {
                     ),
                     Spacer(flex: 1),
                     DefaultButton(
-                      text: "Sign In",
+                      text: "Log In",
                       press: () {
                        Navigator.pushNamed(context, SignInScreen.routeName);
                       },

@@ -7,7 +7,7 @@ class LoginSuccessScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+          backgroundColor: Color.fromRGBO( 7, 60,147,1.0),
         leading: SizedBox(),
         title: Text("Login Success"),
       ),

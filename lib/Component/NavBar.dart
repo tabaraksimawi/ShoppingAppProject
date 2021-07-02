@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:myshopping_app/Screens/Favorite/FavoriteScreen.dart';
 import 'package:myshopping_app/Screens/Home/HomeScreen.dart';
 import 'package:myshopping_app/Screens/Profile/ProfileScreen.dart';
 import 'package:myshopping_app/Screens/enum.dart';
 import 'package:myshopping_app/Component/Constatns.dart';
+import 'package:myshopping_app/Screens/cart/cart_screen.dart';
+import 'package:provider/provider.dart';
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({
   Key key,
@@ -48,11 +51,13 @@ final MenuState selectedMenu;
             ),
             IconButton(
               icon: SvgPicture.asset("assets/icons/Heart Icon.svg"),
-              onPressed: () {},
+              onPressed: () =>
+                  Navigator.pushNamed(context, FavoriteScreen.routeName),
             ),
             IconButton(
               icon: SvgPicture.asset("assets/icons/Cart Icon.svg"),
-              onPressed: () {},
+              onPressed: () =>
+                  Navigator.pushNamed(context, CartScreen.routeName),
             ),
             IconButton(
               icon: SvgPicture.asset(

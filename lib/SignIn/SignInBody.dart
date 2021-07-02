@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/Component/NoAccountText.dart';
-
 import '../SizeConfig.dart';
 import 'SignInForm.dart';
 class Body extends StatelessWidget {

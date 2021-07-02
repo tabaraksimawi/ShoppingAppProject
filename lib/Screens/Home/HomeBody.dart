@@ -4,6 +4,9 @@ import 'package:myshopping_app/Models/ShoeListModel.dart';
 import 'package:myshopping_app/Screens/ShoesCards.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:myshopping_app/Models/CategoriesModel.dart';
+import 'package:provider/provider.dart';
+
+import '../Search/Search.dart';
  class Body extends StatefulWidget {
    @override
    _BodyState createState() => _BodyState();
@@ -13,6 +16,8 @@ import 'package:myshopping_app/Models/CategoriesModel.dart';
    int selectedIndex = 0;
    @override
    Widget build(BuildContext context) {
+//     ProductProvider productProvider = Provider.of(context, );
+    // productProvider.fetchShoeProductData();
     return Scaffold(
       backgroundColor: DefaultElements.kdefaultbgcolor,
       body: Stack(
@@ -55,7 +60,7 @@ import 'package:myshopping_app/Models/CategoriesModel.dart';
   buildAppBar() {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(40),
+        padding: const EdgeInsets.all(50),
         child: Row(
           children: [
             Expanded(
@@ -64,14 +69,14 @@ import 'package:myshopping_app/Models/CategoriesModel.dart';
             RichText(
               text: TextSpan(children: [
                 TextSpan(
-                    text: "X",
+                    text: "T",
                     style: TextStyle(
                       color: DefaultElements.kprimarycolor,
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     )),
                 TextSpan(
-                  text: "E",
+                  text: "J",
                   style: TextStyle(
                     color: DefaultElements.ksecondrycolor,
                     fontSize: 30,
@@ -83,9 +88,15 @@ import 'package:myshopping_app/Models/CategoriesModel.dart';
             Expanded(
               child: Container(),
             ),
-            SvgPicture.asset(
+            IconButton(
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Search()
+                )
+                );
+              }, icon: SvgPicture.asset(
               "assets/icons/search_icon.svg",
               height: 25,
+            ),
             ),
           ],
         ),

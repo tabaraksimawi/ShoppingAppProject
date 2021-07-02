@@ -26,7 +26,6 @@ class WatchesCards extends StatelessWidget {
                         shoeName: watchesListModel.watchName,
                         rating: watchesListModel.rating,
                         showpersentage: watchesListModel.showpersentage,
-                        activeheart: watchesListModel.activeheart,
                         persentage: watchesListModel.persentage,
                         showcasebgcolor: watchesListModel.showcasebgcolor,
                         lightShowcasebgcolor:

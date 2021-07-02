@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/Models/ShoeListModel.dart';
 
+
 class Cart {
   final ShoeListModel product;
   final int numOfItem;
@@ -15,3 +16,4 @@ List<Cart> demoCarts = [
   Cart(product: shoeListModel[1], numOfItem: 1),
   Cart(product: shoeListModel[3], numOfItem: 1),
 ];
+

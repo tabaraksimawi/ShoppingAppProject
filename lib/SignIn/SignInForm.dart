@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/Component/Constatns.dart';
 import 'package:myshopping_app/Component/CustomSuffix.dart';
@@ -18,11 +17,16 @@ class SignForm extends StatefulWidget {
 
 class _SignFormState extends State<SignForm> {
   @override
- // final FirebaseAuth _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
-  String _email;
-  String _password;
+  String email;
+  String password;
   bool remember = false;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  Future <void> logIn() async{
+    AuthResult result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+    FirebaseUser user = result.user;
+    Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+  }
 
   final List<String> errors = [];
 
@@ -76,22 +80,22 @@ class _SignFormState extends State<SignForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
-            text: "Continue",
+            text: "Log In ",
             press: () async {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
+                logIn();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-              //  Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-                try{
-                  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                      email: _email,
-                      password: _password);
-                  Navigator.pushNamed(context,LoginSuccessScreen.routeName);
-                }
-                catch(e){
-                  print("error");
-                }
+                //try{
+                  //UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                     // email: _email,
+                    //  password: _password);
+                //  Navigator.pushNamed(context,LoginSuccessScreen.routeName);
+               // }
+               // catch(e){
+               //   print("error");
+              //  }
               }
             },
           ),
@@ -103,7 +107,7 @@ class _SignFormState extends State<SignForm> {
   TextFormField buildPasswordFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => _password = newValue,
+      onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
@@ -134,7 +138,7 @@ class _SignFormState extends State<SignForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
-      onSaved: (newValue) => _email = newValue,
+      onSaved: (newValue) => email = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kEmailNullError);

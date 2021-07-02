@@ -102,7 +102,7 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
             text: "Continue",
             press: () {
               if (_formKey.currentState.validate()) {
-                // Do what you want to do
+              //  FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((value)=>print ("Check your Email"));
               }
             },
           ),

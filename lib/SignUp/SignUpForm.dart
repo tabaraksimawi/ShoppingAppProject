@@ -15,11 +15,18 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  final _formKey = GlobalKey<FormState>();
-  FirebaseAuth _auth=FirebaseAuth.instance;
   String email , password;
   String conform_password;
   bool remember = false;
+  var _formKey = GlobalKey<FormState>();
+  FirebaseAuth auth = FirebaseAuth.instance;
+  Future <void> register() async{
+    AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+    FirebaseUser user = result.user;
+    Navigator.push(context, MaterialPageRoute(
+      builder: (BuildContext context)=> CompleteProfileScreen(),
+    ));
+  }
   final List<String> errors = [];
 
   void addError({String error}) {
@@ -55,18 +62,10 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 // if all are valid then go to success screen
-                try{
-                  UserCredential userCredential=await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                      email:email,
-
-                      password:password);
-                  Navigator.pushNamed(context,CompleteProfileScreen.routeName);
-                }
-                catch(e){
-                  print("ERROR");
+                  register();
                 }
               }
-            }),
+            ),
         ],
       ),
     );
@@ -163,7 +162,7 @@ class _SignUpFormState extends State<SignUpForm> {
       decoration: InputDecoration(
         labelText: "Email",
         hintText: "Enter your email",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
+        // If  you are using latest version of flutter then lablel text and hint text shown like this
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),

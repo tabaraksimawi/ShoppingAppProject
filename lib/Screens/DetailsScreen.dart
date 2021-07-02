@@ -8,7 +8,6 @@ class DetailScreen extends StatefulWidget {
   final String price;
   final String rating;
   final bool showpersentage;
-  final bool activeheart;
   final Color showcasebgcolor;
   final Color lightShowcasebgcolor;
 
@@ -20,7 +19,6 @@ class DetailScreen extends StatefulWidget {
         this.price,
         this.rating,
         this.showpersentage,
-        this.activeheart,
         this.showcasebgcolor,
         this.lightShowcasebgcolor, String watchimage})
       : super(key: key);
@@ -121,11 +119,14 @@ class _DetailScreenState extends State<DetailScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(
+                            IconButton(
+                              onPressed: (){},
+                            icon: SvgPicture.asset(
                                 "assets/icons/cart.svg",
                                 height: 20,
                                 color: DefaultElements.kprimarycolor,
                               ),
+                      ),
                               SizedBox(
                                 width: 5,
                               ),
@@ -154,7 +155,7 @@ class _DetailScreenState extends State<DetailScreen> {
   buildAppBar() {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(40),
+        padding: const EdgeInsets.all(50),
         child: Row(
           children: [
             GestureDetector(
@@ -172,14 +173,14 @@ class _DetailScreenState extends State<DetailScreen> {
             RichText(
               text: TextSpan(children: [
                 TextSpan(
-                    text: "X",
+                    text: "T",
                     style: TextStyle(
                       color: DefaultElements.kprimarycolor,
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     )),
                 TextSpan(
-                  text: "E",
+                  text: "J",
                   style: TextStyle(
                     color: DefaultElements.ksecondrycolor,
                     fontSize: 30,
