@@ -9,6 +9,7 @@ import 'SignIn/SignInScreen.dart';
 import 'SignUp/SignUpScreen.dart';
 import 'Splash/SplashScreen.dart';
 import 'package:myshopping_app/Screens/cart/cart_screen.dart';
+import 'package:myshopping_app/Screens/UserInfo.dart';
 // We use name route
 // All our routes will be available here
 final Map<String, WidgetBuilder> routes = {
@@ -22,4 +23,5 @@ final Map<String, WidgetBuilder> routes = {
   CompleteProfileScreen.routeName: (context) => CompleteProfileScreen(),
   FavoriteScreen.routeName:(context)=> FavoriteScreen(),
   CartScreen.routeName: (context) => CartScreen(),
+  UserInfo.routeName: (context) => UserInfo(),
 };

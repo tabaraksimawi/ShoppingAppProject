@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myshopping_app/Component/NoAccountText.dart';
 import '../SizeConfig.dart';
 import 'SignInForm.dart';
+import 'package:myshopping_app/Component/Constatns.dart';
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,14 +16,8 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: SizeConfig.screenHeight * 0.04),
-                Text(
-                  "Welcome Back",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: getProportionateScreenWidth(28),
-                    fontWeight: FontWeight.bold,
+                Text("Welcome Back", style: headingStyle,
                   ),
-                ),
                 Text(
                   "Sign in with your email and password ",
                   textAlign: TextAlign.center,
