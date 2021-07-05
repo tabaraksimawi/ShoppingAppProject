@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myshopping_app/Splash/SplashScreen.dart';
 import 'ProfileMenu.dart';
 import 'ProfilePic.dart';
-
+import 'package:myshopping_app/Screens/UserInfo.dart';
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,8 @@ class Body extends StatelessWidget {
           ProfileMenu(
             text: "My Account",
             icon: "assets/icons/User Icon.svg",
-            press: () => {},
+            press: () => {  Navigator.pushNamed(context, UserInfo.routeName)
+            },
           ),
           ProfileMenu(
             text: "Settings",

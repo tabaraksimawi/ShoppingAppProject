@@ -7,6 +7,7 @@ import 'package:myshopping_app/Component/FormError.dart';
 import 'package:myshopping_app/Component/KeyboardHelper.dart';
 import 'package:myshopping_app/ForgetPassword/ForgetPasScreen.dart';
 import 'package:myshopping_app/LogIn/LogInSuccessScreen.dart';
+import 'package:myshopping_app/Services/auth_service.dart';
 
 import '../SizeConfig.dart';
 
@@ -20,13 +21,14 @@ class _SignFormState extends State<SignForm> {
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
+  final _auth=AuthService();
   bool remember = false;
-  FirebaseAuth auth = FirebaseAuth.instance;
-  Future <void> logIn() async{
-    AuthResult result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-    FirebaseUser user = result.user;
-    Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-  }
+ // FirebaseAuth auth = FirebaseAuth.instance;
+ // Future <void> logIn() async{
+    //AuthResult result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+  //  FirebaseUser user = result.user;
+  //  Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+
 
   final List<String> errors = [];
 
@@ -84,7 +86,12 @@ class _SignFormState extends State<SignForm> {
             press: () async {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
-                logIn();
+                final userCredential = await _auth.signIn(email, password);
+                print (userCredential.user.uid);
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (BuildContext context)=> LoginSuccessScreen(),
+                )
+                );
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
                 //try{

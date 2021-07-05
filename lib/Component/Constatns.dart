@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myshopping_app/Component/DefaultElements.dart';
 import 'package:myshopping_app/SizeConfig.dart';
 
 const kPrimaryColor = Color(0xFF073C93);
@@ -16,7 +17,7 @@ const kAnimationDuration = Duration(milliseconds: 200);
 final headingStyle = TextStyle(
   fontSize: getProportionateScreenWidth(28),
   fontWeight: FontWeight.bold,
-  color: Colors.black,
+  color: DefaultElements.kprimarycolor,
   height: 1.5,
 );
 

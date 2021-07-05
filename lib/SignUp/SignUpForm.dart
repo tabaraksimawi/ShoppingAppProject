@@ -5,7 +5,8 @@ import 'package:myshopping_app/Component/Constatns.dart';
 import 'package:myshopping_app/Component/CustomSuffix.dart';
 import 'package:myshopping_app/Component/DefaultButton.dart';
 import 'package:myshopping_app/Component/FormError.dart';
-
+import 'package:flutter/services.dart';
+import 'package:myshopping_app/Services/auth_service.dart';
 import '../SizeConfig.dart';
 
 
@@ -15,18 +16,19 @@ class SignUpForm extends StatefulWidget {
 }
 
 class _SignUpFormState extends State<SignUpForm> {
+
+ // FirebaseAuth auth = FirebaseAuth.instance;
+  //Future <void> register() async{
+   // AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+   // FirebaseUser user = result.user;
+    //Navigator.push(context, MaterialPageRoute(
+    //  builder: (BuildContext context)=> CompleteProfileScreen(),
+  //  ));
+  var _formKey = GlobalKey<FormState>();
   String email , password;
   String conform_password;
+  final _auth=AuthService();
   bool remember = false;
-  var _formKey = GlobalKey<FormState>();
-  FirebaseAuth auth = FirebaseAuth.instance;
-  Future <void> register() async{
-    AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-    FirebaseUser user = result.user;
-    Navigator.push(context, MaterialPageRoute(
-      builder: (BuildContext context)=> CompleteProfileScreen(),
-    ));
-  }
   final List<String> errors = [];
 
   void addError({String error}) {
@@ -62,7 +64,12 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 // if all are valid then go to success screen
-                  register();
+                final userCredential = await _auth.signUp(email, password);
+                print (userCredential.user.uid);
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (BuildContext context)=> CompleteProfileScreen(),
+              )
+                );
                 }
               }
             ),
