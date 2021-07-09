@@ -5,7 +5,6 @@ import 'package:myshopping_app/Component/DefaultButton.dart';
 import 'package:myshopping_app/Component/FormError.dart';
 import 'package:myshopping_app/Screens/Home/HomeScreen.dart';
 
-
 import '../SizeConfig.dart';
 
 class CompleteProfileForm extends StatefulWidget {
@@ -52,7 +51,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
             text: "continue",
-            press: () {
+            onPressed: () {
               if (_formKey.currentState.validate()) {
                 Navigator.pushNamed(context, HomeScreen.routeName);
               }
@@ -86,7 +85,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         // if you r using flutter less then 1.20.* then maybe this is not working properly
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon:
-        CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
+            CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
       ),
     );
   }

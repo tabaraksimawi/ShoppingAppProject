@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/Component/DefaultElements.dart';
-import 'package:myshopping_app/Models/ShoeListModel.dart';
+import 'package:myshopping_app/Models/ProductModel.dart';
 import 'package:myshopping_app/Screens/ShoesCards.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:myshopping_app/Models/CategoriesModel.dart';
-import 'package:provider/provider.dart';
 
 import '../Search/Search.dart';
- class Body extends StatefulWidget {
-   @override
-   _BodyState createState() => _BodyState();
- }
 
- class _BodyState extends State<Body> {
-   int selectedIndex = 0;
-   @override
-   Widget build(BuildContext context) {
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  int selectedIndex = 0;
+  @override
+  Widget build(BuildContext context) {
 //     ProductProvider productProvider = Provider.of(context, );
     // productProvider.fetchShoeProductData();
     return Scaffold(
@@ -27,19 +27,16 @@ import '../Search/Search.dart';
             children: [
               buildAppBar(),
               buildProductSection(),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               buildCategoriesSection(context),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 5),
               Expanded(
                 child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
                     child: GridView.builder(
                       itemCount: shoeListModel.length,
-                      gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          new SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 0.75,
                       ),
@@ -47,8 +44,7 @@ import '../Search/Search.dart';
                         shoeListModel: shoeListModel[index],
                         index: index,
                       ),
-                    )
-                ),
+                    )),
               ),
             ],
           ),
@@ -89,14 +85,14 @@ import '../Search/Search.dart';
               child: Container(),
             ),
             IconButton(
-              onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Search()
-                )
-                );
-              }, icon: SvgPicture.asset(
-              "assets/icons/search_icon.svg",
-              height: 25,
-            ),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Search()));
+              },
+              icon: SvgPicture.asset(
+                "assets/icons/search_icon.svg",
+                height: 25,
+              ),
             ),
           ],
         ),
@@ -146,9 +142,9 @@ import '../Search/Search.dart';
                       boxShadow: [
                         selectedIndex == index
                             ? BoxShadow(
-                            color: DefaultElements.knavbariconcolor,
-                            blurRadius: 10,
-                            offset: Offset(0, -1))
+                                color: DefaultElements.knavbariconcolor,
+                                blurRadius: 10,
+                                offset: Offset(0, -1))
                             : BoxShadow()
                       ]),
                   child: Row(
@@ -177,8 +173,6 @@ import '../Search/Search.dart';
               ),
             );
           },
-        )
-    );
+        ));
   }
 }
-

@@ -11,17 +11,19 @@ class FavoriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(
-            color: DefaultElements.kprimarycolor
-        ),
+        leading: BackButton(color: DefaultElements.kprimarycolor),
         elevation: 0.2,
         backgroundColor: DefaultElements.kdefaultbgcolor,
-        title: Text("Favorites",
-          style: GoogleFonts.lato(textStyle: TextStyle(color: DefaultElements.kprimarycolor, letterSpacing: .5),),),
-
+        title: Text(
+          "Favorites",
+          style: GoogleFonts.lato(
+            textStyle: TextStyle(
+                color: DefaultElements.kprimarycolor, letterSpacing: .5),
+          ),
+        ),
       ),
       body: FavoriteBody(),
-      bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.profile),
+      // bottomNavigationBar: CustomBottomNavBar(selectedMenu: MenuState.favorite),
     );
   }
 }

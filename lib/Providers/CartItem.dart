@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:myshopping_app/Models/ShoeListModel.dart';
+import 'package:myshopping_app/Models/ProductModel.dart';
 
-class CartItem extends ChangeNotifier
-{
-  List <ShoeListModel> products =[];
-  addProduct(ShoeListModel shoeListModel) //method
+class CartItem extends ChangeNotifier {
+  List<ProductModel> products = [];
+  addProduct(ProductModel shoeListModel) //method
   {
-        products.add(shoeListModel);
-        notifyListeners();
+    products.add(shoeListModel);
+    notifyListeners();
   }
 }

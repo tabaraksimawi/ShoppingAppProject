@@ -4,8 +4,6 @@ import 'package:myshopping_app/Component/DefaultButton.dart';
 import 'package:myshopping_app/Screens/Home/HomeScreen.dart';
 import 'package:myshopping_app/SignIn/SignInScreen.dart';
 
-
-
 import '../SizeConfig.dart';
 import 'SplashContent.dart';
 
@@ -17,13 +15,10 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   int currentPage = 0;
   List<Map<String, String>> splashData = [
-    {
-      "text": "Welcome, Let’s shop!",
-      "image": "assets/images/splash20 (1).png"
-    },
+    {"text": "Welcome, Let’s shop!", "image": "assets/images/splash20 (1).png"},
     {
       "text":
-      "We help people conect with store \naround United State of America",
+          "We help people conect with store \naround United State of America",
       "image": "assets/images/splash22.png"
     },
     {
@@ -65,20 +60,20 @@ class _BodyState extends State<Body> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: List.generate(
                         splashData.length,
-                            (index) => buildDot(index: index),
+                        (index) => buildDot(index: index),
                       ),
                     ),
                     Spacer(flex: 1),
                     DefaultButton(
                       text: "Log In",
-                      press: () {
-                       Navigator.pushNamed(context, SignInScreen.routeName);
+                      onPressed: () {
+                        Navigator.pushNamed(context, SignInScreen.routeName);
                       },
-                  ),
+                    ),
                     Spacer(),
                     DefaultButton(
                       text: "Continue As A Guest",
-                      press: () {
+                      onPressed: () {
                         Navigator.pushNamed(context, HomeScreen.routeName);
                       },
                     ),

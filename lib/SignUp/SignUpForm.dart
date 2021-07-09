@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/CompleteProfile/ProfileScreen.dart';
 import 'package:myshopping_app/Component/Constatns.dart';
@@ -9,25 +8,16 @@ import 'package:flutter/services.dart';
 import 'package:myshopping_app/Services/auth_service.dart';
 import '../SizeConfig.dart';
 
-
 class SignUpForm extends StatefulWidget {
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-
- // FirebaseAuth auth = FirebaseAuth.instance;
-  //Future <void> register() async{
-   // AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-   // FirebaseUser user = result.user;
-    //Navigator.push(context, MaterialPageRoute(
-    //  builder: (BuildContext context)=> CompleteProfileScreen(),
-  //  ));
   var _formKey = GlobalKey<FormState>();
-  String email , password;
-  String conform_password;
-  final _auth=AuthService();
+  String email, password;
+  String conformPassword;
+  final _auth = AuthService();
   bool remember = false;
   final List<String> errors = [];
 
@@ -59,20 +49,21 @@ class _SignUpFormState extends State<SignUpForm> {
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
-            text: "Continue",
-            press: () async {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
-                // if all are valid then go to success screen
-                final userCredential = await _auth.signUp(email, password);
-                print (userCredential.user.uid);
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (BuildContext context)=> CompleteProfileScreen(),
-              )
-                );
+              text: "Continue",
+              onPressed: () async {
+                if (_formKey.currentState.validate()) {
+                  _formKey.currentState.save();
+                  // if all are valid then go to success screen
+                  final userCredential = await _auth.signUp(email, password);
+                  print(userCredential.user.uid);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            CompleteProfileScreen(),
+                      ));
                 }
-              }
-            ),
+              }),
         ],
       ),
     );
@@ -81,14 +72,14 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildConformPassFormField() {
     return TextFormField(
       obscureText: true,
-      onSaved: (newValue) => conform_password = newValue,
+      onSaved: (newValue) => conformPassword = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: kPassNullError);
-        } else if (value.isNotEmpty && password == conform_password) {
+        } else if (value.isNotEmpty && password == conformPassword) {
           removeError(error: kMatchPassError);
         }
-        conform_password = value;
+        conformPassword = value;
       },
       validator: (value) {
         if (value.isEmpty) {

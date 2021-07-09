@@ -7,7 +7,6 @@ import 'package:myshopping_app/Component/NoAccountText.dart';
 
 import '../SizeConfig.dart';
 
-
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class Body extends StatelessWidget {
       child: SingleChildScrollView(
         child: Padding(
           padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: Column(
             children: [
               SizedBox(height: SizeConfig.screenHeight * 0.04),
@@ -100,9 +99,9 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
           SizedBox(height: SizeConfig.screenHeight * 0.1),
           DefaultButton(
             text: "Continue",
-            press: () {
+            onPressed: () {
               if (_formKey.currentState.validate()) {
-              //  FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((value)=>print ("Check your Email"));
+                //  FirebaseAuth.instance.sendPasswordResetEmail(email: email).then((value)=>print ("Check your Email"));
               }
             },
           ),
@@ -113,5 +112,3 @@ class _ForgotPassFormState extends State<ForgotPassForm> {
     );
   }
 }
-
-

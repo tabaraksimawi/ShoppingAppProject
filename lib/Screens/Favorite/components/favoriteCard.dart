@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/Component/Constatns.dart';
-import 'package:myshopping_app/Models/Cart.dart';
+import 'package:myshopping_app/Models/ProductModel.dart';
 
 import '../../../SizeConfig.dart';
 import '../../DetailsScreen.dart';
 
-class CartCard extends StatelessWidget {
-  const CartCard({
-    Key key,
-    @required this.cart,
-  }) : super(key: key);
+class FavoriteCard extends StatelessWidget {
+  const FavoriteCard({
+    @required this.product,
+    @required this.isSelected,
+    @required this.onCheckBoxValueChanged,
+  });
 
-  final Cart cart;
+  final ProductModel product;
+  final bool isSelected;
+  final Function(bool) onCheckBoxValueChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +23,7 @@ class CartCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    DetailScreen(productModel: cart.product)));
+                builder: (context) => DetailScreen(productModel: product)));
       },
       child: Row(
         children: [
@@ -36,8 +38,8 @@ class CartCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Hero(
-                  tag: cart.product.productImage,
-                  child: Image.asset(cart.product.productImage),
+                  tag: product.productImage,
+                  child: Image.asset(product.productImage),
                 ),
               ),
             ),
@@ -47,21 +49,16 @@ class CartCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                cart.product.productName,
+                product.productName,
                 style: TextStyle(color: Colors.black, fontSize: 16),
                 maxLines: 2,
               ),
               SizedBox(height: 10),
               Text.rich(
                 TextSpan(
-                  text: "\$${cart.product.price}",
+                  text: "\$${product.price}",
                   style: TextStyle(
                       fontWeight: FontWeight.w600, color: kPrimaryColor),
-                  children: [
-                    TextSpan(
-                        text: " x${cart.quantity}",
-                        style: Theme.of(context).textTheme.bodyText1),
-                  ],
                 ),
               ),
             ],
@@ -69,11 +66,15 @@ class CartCard extends StatelessWidget {
           Spacer(),
           Column(
             children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.favorite_border_rounded,
-                  color: kPrimaryColor,
+              Transform.scale(
+                scale: 1.2,
+                child: Checkbox(
+                  value: isSelected,
+                  visualDensity: VisualDensity.comfortable,
+                  activeColor: kPrimaryColor,
+                  side: BorderSide(width: 0),
+                  shape: CircleBorder(),
+                  onChanged: onCheckBoxValueChanged,
                 ),
               ),
             ],

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:myshopping_app/Component/defaultElements.dart';
+import 'package:myshopping_app/Models/ProductModel.dart';
 import 'package:myshopping_app/Models/WatchListModel.dart';
 
 import 'DetailsScreen.dart';
+
 class WatchesCards extends StatelessWidget {
   final WatchesListModel watchesListModel;
   final int index;
 
-  const WatchesCards({Key key, this.watchesListModel, this.index }) : super(key: key);
+  const WatchesCards({Key key, this.watchesListModel, this.index})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,16 +24,9 @@ class WatchesCards extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => DetailScreen(
-                        watchimage: watchesListModel.watchimage,
-                        price: watchesListModel.price,
-                        shoeName: watchesListModel.watchName,
-                        rating: watchesListModel.rating,
-                        showpersentage: watchesListModel.showpersentage,
-                        persentage: watchesListModel.persentage,
-                        showcasebgcolor: watchesListModel.showcasebgcolor,
-                        lightShowcasebgcolor:
-                        watchesListModel.lightShowcasebgcolor,
-                      )));
+                            watchimage: watchesListModel.watchimage,
+                            productModel: shoeListModel[index],
+                          )));
               print("Navigate to Detail Page");
             },
             child: Container(
@@ -59,25 +55,25 @@ class WatchesCards extends StatelessWidget {
                       children: [
                         watchesListModel.showpersentage
                             ? Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8, right: 8, left: 8),
-                          child: Container(
-                            height: 30,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: DefaultElements.ksecondrycolor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "${watchesListModel.persentage}",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
-                              ),
-                            ),
-                          ),
-                        )
+                                padding: const EdgeInsets.only(
+                                    top: 8, right: 8, left: 8),
+                                child: Container(
+                                  height: 30,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                    color: DefaultElements.ksecondrycolor,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "${watchesListModel.persentage}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              )
                             : Container(),
                         Expanded(
                           child: Container(),
@@ -125,7 +121,7 @@ class WatchesCards extends StatelessWidget {
                                 color: watchesListModel.showcasebgcolor,
                                 shape: BoxShape.circle,
                                 border:
-                                Border.all(color: Colors.white, width: 2)),
+                                    Border.all(color: Colors.white, width: 2)),
                           ),
                         ),
                       ),

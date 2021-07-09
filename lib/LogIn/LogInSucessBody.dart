@@ -28,8 +28,8 @@ class Body extends StatelessWidget {
           width: SizeConfig.screenWidth * 0.6,
           child: DefaultButton(
             text: "Continue",
-            press: () {
-             Navigator.pushNamed(context, HomeScreen.routeName);
+            onPressed: () {
+              Navigator.pushNamed(context, HomeScreen.routeName);
             },
           ),
         ),

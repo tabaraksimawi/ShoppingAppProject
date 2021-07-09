@@ -1,26 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/Component/defaultElements.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-class DetailScreen extends StatefulWidget {
-  final String shoeimage;
-  final String persentage;
-  final String shoeName;
-  final String price;
-  final String rating;
-  final bool showpersentage;
-  final Color showcasebgcolor;
-  final Color lightShowcasebgcolor;
+import 'package:myshopping_app/Models/ProductModel.dart';
 
-  const DetailScreen(
-      {Key key,
-        this.shoeimage,
-        this.persentage,
-        this.shoeName,
-        this.price,
-        this.rating,
-        this.showpersentage,
-        this.showcasebgcolor,
-        this.lightShowcasebgcolor, String watchimage})
+class DetailScreen extends StatefulWidget {
+  final ProductModel productModel;
+
+  const DetailScreen({Key key, this.productModel, String watchimage})
       : super(key: key);
 
   @override
@@ -45,22 +31,22 @@ class _DetailScreenState extends State<DetailScreen> {
           Column(
             children: [
               buildAppBar(),
-              widget.showpersentage
+              widget.productModel.showPersentage
                   ? Container(
-                height: 30,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: DefaultElements.ksecondrycolor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    "${widget.persentage}",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                ),
-              )
+                      height: 30,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: DefaultElements.ksecondrycolor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "${widget.productModel.discountPersentage}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
+                        ),
+                      ),
+                    )
                   : Container(),
               SizedBox(
                 height: 5,
@@ -95,38 +81,38 @@ class _DetailScreenState extends State<DetailScreen> {
                 child: Row(
                   children: [
                     Text(
-                      "${widget.price}",
+                      "${widget.productModel.price}",
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w900,
                       ),
                     ),
-                    Expanded(
-                      child: Container(),
-                    ),
+                    Expanded(child: Container()),
                     Padding(
                       padding: EdgeInsets.only(right: 20),
-                      child: FlatButton(
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          primary: Color(0xffF7F7F7),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                         ),
-                        color: Color(0xffF7F7F7),
                         onPressed: () {},
                         child: Padding(
                           padding: EdgeInsets.all(5),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                            IconButton(
-                              onPressed: (){},
-                            icon: SvgPicture.asset(
-                                "assets/icons/cart.svg",
-                                height: 20,
-                                color: DefaultElements.kprimarycolor,
+                              IconButton(
+                                onPressed: () {},
+                                icon: SvgPicture.asset(
+                                  "assets/icons/cart.svg",
+                                  height: 20,
+                                  color: DefaultElements.kprimarycolor,
+                                ),
                               ),
-                      ),
                               SizedBox(
                                 width: 5,
                               ),
@@ -230,7 +216,7 @@ class _DetailScreenState extends State<DetailScreen> {
               color: Colors.transparent,
               shape: BoxShape.circle,
               border: Border.all(
-                color: widget.showcasebgcolor,
+                color: widget.productModel.showcasebgcolor,
                 width: 2,
               )),
           child: Padding(
@@ -242,7 +228,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   color: Colors.transparent,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: widget.showcasebgcolor,
+                    color: widget.productModel.showcasebgcolor,
                     width: 2,
                   )),
               child: Padding(
@@ -251,7 +237,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2.75,
                   decoration: BoxDecoration(
-                    color: widget.showcasebgcolor,
+                    color: widget.productModel.showcasebgcolor,
                     shape: BoxShape.circle,
                   ),
                   child: Padding(
@@ -260,7 +246,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height / 2.75,
                       decoration: BoxDecoration(
-                        color: widget.lightShowcasebgcolor,
+                        color: widget.productModel.lightShowcasebgcolor,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -276,9 +262,9 @@ class _DetailScreenState extends State<DetailScreen> {
           left: 50,
           bottom: 0,
           child: Hero(
-            tag: widget.shoeimage,
+            tag: widget.productModel.productImage,
             child: Image.asset(
-              "${widget.shoeimage}",
+              "${widget.productModel.productImage}",
               height: 100,
             ),
           ),
@@ -312,7 +298,7 @@ class _DetailScreenState extends State<DetailScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "${widget.shoeName}",
+                  "${widget.productModel.productName}",
                   style: TextStyle(
                     fontSize: 30,
                     color: DefaultElements.kprimarycolor,
@@ -327,7 +313,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       color: Color(0xffFDD446),
                     ),
                     Text(
-                      "${widget.rating}",
+                      "${widget.productModel.avarrageRating}",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.grey,
@@ -370,22 +356,23 @@ class _DetailScreenState extends State<DetailScreen> {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding:
-                          EdgeInsets.symmetric(horizontal: 13, vertical: 8),
-                          child: FlatButton(
+                              EdgeInsets.symmetric(horizontal: 13, vertical: 8),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              primary: selectedIndex == index
+                                  ? DefaultElements.ksecondrycolor
+                                  : Colors.white,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5, vertical: 5),
+                            ),
                             onPressed: () {
                               setState(() {
                                 selectedIndex = index;
                               });
                             },
-                            minWidth: 50,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            color: selectedIndex == index
-                                ? DefaultElements.ksecondrycolor
-                                : Colors.white,
                             child: Center(
                               child: Text(
                                 shoeShize[index],
@@ -437,7 +424,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                   shape: BoxShape.circle,
                                   color: selectedColorIndex == index
                                       ? DefaultElements
-                                      .kshoerepplecolorOptions[index]
+                                          .kshoerepplecolorOptions[index]
                                       : Colors.white,
                                 ),
                                 child: Padding(

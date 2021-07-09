@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myshopping_app/Component/Constatns.dart';
 import 'package:myshopping_app/Component/CustomSuffix.dart';
@@ -17,18 +16,16 @@ class SignForm extends StatefulWidget {
 }
 
 class _SignFormState extends State<SignForm> {
-  @override
   final _formKey = GlobalKey<FormState>();
   String email;
   String password;
-  final _auth=AuthService();
+  final _auth = AuthService();
   bool remember = false;
- // FirebaseAuth auth = FirebaseAuth.instance;
- // Future <void> logIn() async{
-    //AuthResult result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+  // FirebaseAuth auth = FirebaseAuth.instance;
+  // Future <void> logIn() async{
+  //AuthResult result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
   //  FirebaseUser user = result.user;
   //  Navigator.pushNamed(context, LoginSuccessScreen.routeName);
-
 
   final List<String> errors = [];
 
@@ -83,26 +80,27 @@ class _SignFormState extends State<SignForm> {
           SizedBox(height: getProportionateScreenHeight(20)),
           DefaultButton(
             text: "Log In ",
-            press: () async {
+            onPressed: () async {
               if (_formKey.currentState.validate()) {
                 _formKey.currentState.save();
                 final userCredential = await _auth.signIn(email, password);
-                print (userCredential.user.uid);
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (BuildContext context)=> LoginSuccessScreen(),
-                )
-                );
+                print(userCredential.user.uid);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => LoginSuccessScreen(),
+                    ));
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
                 //try{
-                  //UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                     // email: _email,
-                    //  password: _password);
+                //UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                // email: _email,
+                //  password: _password);
                 //  Navigator.pushNamed(context,LoginSuccessScreen.routeName);
-               // }
-               // catch(e){
-               //   print("error");
-              //  }
+                // }
+                // catch(e){
+                //   print("error");
+                //  }
               }
             },
           ),
@@ -173,4 +171,3 @@ class _SignFormState extends State<SignForm> {
     );
   }
 }
-
