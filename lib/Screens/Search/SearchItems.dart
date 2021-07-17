@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SearchItem extends StatelessWidget {
@@ -7,14 +6,6 @@ class SearchItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: Container(
-            height: 100,
-            child: Center(
-              child: Image.network(""),
-            ),
-          ),
-        ),
         Expanded(
           child: Container(
             height: 100,
@@ -36,11 +27,7 @@ class SearchItem extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(
-          child: Container(
-            height: 100,
-          ),
-        ),
+        Expanded(child: Container(height: 100)),
       ],
     );
   }

@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:myshopping_app/Component/NavBar.dart';
-import 'package:myshopping_app/Screens/Home/HomeBody.dart';
+import 'package:flutter/scheduler.dart';
 
-import '../enum.dart';
+import '../../Providers/providers.dart';
+import '../Core/Component/NavBar.dart';
+import './HomeBody.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static String routeName = "/home";
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      Provider.of<CartProvider>(context, listen: false).init();
+      Provider.of<FavoriteProvider>(context, listen: false).init();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

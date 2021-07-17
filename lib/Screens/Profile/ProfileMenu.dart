@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:myshopping_app/Component/Constatns.dart';
+
+import '../Core/Component/DefaultElements.dart';
 
 class ProfileMenu extends StatelessWidget {
   const ProfileMenu({
@@ -22,14 +23,14 @@ class ProfileMenu extends StatelessWidget {
           padding: EdgeInsets.all(20),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          primary: Color(0xFFF5F6F9),
+          primary: DefaultElements.kPrimaryColor,
         ),
         onPressed: press,
         child: Row(
           children: [
             SvgPicture.asset(
               icon,
-              color: kPrimaryColor,
+              color: DefaultElements.kPrimaryColor,
               width: 22,
             ),
             SizedBox(width: 20),

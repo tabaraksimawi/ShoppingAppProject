@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myshopping_app/Component/Constatns.dart';
-import 'package:myshopping_app/Models/ProductModel.dart';
 
-import '../../../SizeConfig.dart';
-import '../../DetailsScreen.dart';
+import '../../Core/core.dart';
+import '../../../data/Models/ProductModel.dart';
+import '../../ProductDetailScreen.dart';
 
 class FavoriteCard extends StatelessWidget {
   const FavoriteCard({
@@ -23,7 +22,10 @@ class FavoriteCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => DetailScreen(productModel: product)));
+                builder: (context) => ProductDetailScreen(
+                      product: product,
+                      heroTag: product.productImage,
+                    )));
       },
       child: Row(
         children: [
@@ -39,7 +41,7 @@ class FavoriteCard extends StatelessWidget {
                 ),
                 child: Hero(
                   tag: product.productImage,
-                  child: Image.asset(product.productImage),
+                  child: LoadImage(url: product.productImage),
                 ),
               ),
             ),
@@ -58,7 +60,8 @@ class FavoriteCard extends StatelessWidget {
                 TextSpan(
                   text: "\$${product.price}",
                   style: TextStyle(
-                      fontWeight: FontWeight.w600, color: kPrimaryColor),
+                      fontWeight: FontWeight.w600,
+                      color: DefaultElements.kPrimaryColor),
                 ),
               ),
             ],
@@ -71,7 +74,7 @@ class FavoriteCard extends StatelessWidget {
                 child: Checkbox(
                   value: isSelected,
                   visualDensity: VisualDensity.comfortable,
-                  activeColor: kPrimaryColor,
+                  activeColor: DefaultElements.kPrimaryColor,
                   side: BorderSide(width: 0),
                   shape: CircleBorder(),
                   onChanged: onCheckBoxValueChanged,

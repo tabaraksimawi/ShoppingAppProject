@@ -1,38 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myshopping_app/Component/Constatns.dart';
-import 'package:myshopping_app/Component/DefaultButton.dart';
-import 'package:myshopping_app/Component/DefaultElements.dart';
-import 'package:myshopping_app/Models/Cart.dart';
-import 'package:myshopping_app/Screens/Home/HomeScreen.dart';
+
+import '../../Providers/providers.dart';
+import '../Core/core.dart';
+import '../Home/HomeScreen.dart';
 
 class PaymentPage extends StatelessWidget {
   static String routeName = "/payment";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
-      body: PaymentPageBody(),
-    );
-  }
-
-  AppBar buildAppBar(BuildContext context) {
-    return AppBar(
-      leading: BackButton(color: DefaultElements.kprimarycolor),
-      elevation: 0.2,
-      backgroundColor: DefaultElements.kdefaultbgcolor,
-      title: Column(
-        children: [
-          Text(
-            "Payment",
-            style: GoogleFonts.lato(
-              textStyle: TextStyle(
-                  color: DefaultElements.kprimarycolor, letterSpacing: .5),
-            ),
-          ),
-        ],
+      appBar: AppBar(
+        title: Text(
+          "Payment",
+          style: DefaultElements.headingStyle,
+        ),
       ),
+      body: PaymentPageBody(),
     );
   }
 }
@@ -51,13 +36,23 @@ class _PaymentPageBodyState extends State<PaymentPageBody> {
   String cardHolderName = '';
   String cvvCode = '';
   bool isCvvFocused = false;
+  CartProvider _cartProvider;
+  ProductsProvider _productsProvider;
 
   @override
   void initState() {
-    demoCarts.forEach((c) {
-      total = total + (double.parse(c.product.price) * c.quantity);
-    });
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _cartProvider = Provider.of<CartProvider>(context);
+    _productsProvider = Provider.of<ProductsProvider>(context, listen: false);
+
+    _cartProvider.cartItems.forEach((c) {
+      total = total + (c.product.price * c.quantity);
+    });
+    super.didChangeDependencies();
   }
 
   void onCreditCardModelChange(CreditCardModel creditCardModel) {
@@ -72,69 +67,79 @@ class _PaymentPageBodyState extends State<PaymentPageBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(20),
-      child: Column(
-        children: [
-          CreditCardWidget(
-            cardBgColor: DefaultElements.kprimarycolor,
-            cardNumber: cardNumber,
-            expiryDate: expiryDate,
-            cardHolderName: cardHolderName,
-            cvvCode: cvvCode,
-            showBackView: isCvvFocused,
-            obscureCardNumber: true,
-            obscureCardCvv: true,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: CreditCardForm(
-                formKey: _formKey,
-                onCreditCardModelChange: onCreditCardModelChange,
-                obscureCvv: true,
-                obscureNumber: true,
-                cardNumberDecoration: const InputDecoration(
-                  labelText: 'Number',
-                  hintText: 'XXXX XXXX XXXX XXXX',
+    return LoadingOverlay(
+      isLoading: _cartProvider.controllerState == ControllerState.loading,
+      child: Container(
+        margin: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            CreditCardWidget(
+              cardBgColor: DefaultElements.kPrimaryColor,
+              cardNumber: cardNumber,
+              expiryDate: expiryDate,
+              cardHolderName: cardHolderName,
+              cvvCode: cvvCode,
+              showBackView: isCvvFocused,
+              obscureCardNumber: true,
+              obscureCardCvv: true,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: CreditCardForm(
+                  formKey: _formKey,
+                  onCreditCardModelChange: onCreditCardModelChange,
+                  obscureCvv: true,
+                  obscureNumber: true,
+                  cardNumberDecoration: const InputDecoration(
+                    labelText: 'Number',
+                    hintText: 'XXXX XXXX XXXX XXXX',
+                  ),
+                  expiryDateDecoration: const InputDecoration(
+                    labelText: 'Expired Date',
+                    hintText: 'XX/XX',
+                  ),
+                  cvvCodeDecoration: const InputDecoration(
+                    labelText: 'CVV',
+                    hintText: 'XXX',
+                  ),
+                  cardHolderDecoration: const InputDecoration(
+                    labelText: 'Card Holder Name',
+                  ),
+                  cardHolderName: cardHolderName,
+                  cardNumber: cardNumber,
+                  cvvCode: cvvCode,
+                  expiryDate: expiryDate,
+                  themeColor: DefaultElements.kPrimaryColor,
                 ),
-                expiryDateDecoration: const InputDecoration(
-                  labelText: 'Expired Date',
-                  hintText: 'XX/XX',
-                ),
-                cvvCodeDecoration: const InputDecoration(
-                  labelText: 'CVV',
-                  hintText: 'XXX',
-                ),
-                cardHolderDecoration: const InputDecoration(
-                  labelText: 'Card Holder Name',
-                ),
-                cardHolderName: cardHolderName,
-                cardNumber: cardNumber,
-                cvvCode: cvvCode,
-                expiryDate: expiryDate,
-                themeColor: kPrimaryColor,
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Total: $total',
-              style: GoogleFonts.lato(fontSize: 20),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Total: $total',
+                style: GoogleFonts.lato(fontSize: 20),
+              ),
             ),
-          ),
-          DefaultButton(
-            text: 'Pay Now',
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                print('valid!');
-                Navigator.of(context).pushNamed(OrderCompletion.routeName);
-              } else {
-                print('invalid!');
-              }
-            },
-          )
-        ],
+            DefaultButton(
+              text: 'Pay Now',
+              onPressed: () async {
+                if (_formKey.currentState.validate()) {
+                  try {
+                    for (var i in _cartProvider.cartItems) {
+                      _productsProvider.updateProduct(i.product
+                          .copyWith(quantity: i.product.quantity - i.quantity));
+                    }
+                    await _cartProvider.clearCart();
+                    Navigator.of(context).pushNamed(OrderCompletion.routeName);
+                  } catch (e) {
+                    print(e);
+                    showErrorMessage(e.toString());
+                  }
+                } else {}
+              },
+            )
+          ],
+        ),
       ),
     );
   }
@@ -172,7 +177,8 @@ class OrderCompletion extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: DefaultButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(HomeScreen.routeName);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                HomeScreen.routeName, (route) => false);
           },
           text: 'Continue Shopping',
         ),

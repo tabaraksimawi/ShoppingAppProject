@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myshopping_app/Component/Constatns.dart';
-import 'package:myshopping_app/Models/Cart.dart';
 
-import '../../../SizeConfig.dart';
-import '../../DetailsScreen.dart';
+import '../../../Providers/providers.dart';
+import '../../Core/core.dart';
+import '../../../data/Models/CartModel.dart';
+import '../../ProductDetailScreen.dart';
+import '../../NoAccountWarning.dart';
 
 class CartCard extends StatelessWidget {
   const CartCard({
@@ -11,17 +12,21 @@ class CartCard extends StatelessWidget {
     @required this.cart,
   }) : super(key: key);
 
-  final Cart cart;
+  final CartModel cart;
 
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = Provider.of<FavoriteProvider>(context);
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    DetailScreen(productModel: cart.product)));
+              builder: (context) => ProductDetailScreen(
+                product: cart.product,
+                heroTag: '${cart.product.productImage}',
+              ),
+            ));
       },
       child: Row(
         children: [
@@ -37,7 +42,7 @@ class CartCard extends StatelessWidget {
                 ),
                 child: Hero(
                   tag: cart.product.productImage,
-                  child: Image.asset(cart.product.productImage),
+                  child: LoadImage(url: cart.product.productImage),
                 ),
               ),
             ),
@@ -56,7 +61,8 @@ class CartCard extends StatelessWidget {
                 TextSpan(
                   text: "\$${cart.product.price}",
                   style: TextStyle(
-                      fontWeight: FontWeight.w600, color: kPrimaryColor),
+                      fontWeight: FontWeight.w600,
+                      color: DefaultElements.kPrimaryColor),
                   children: [
                     TextSpan(
                         text: " x${cart.quantity}",
@@ -70,10 +76,23 @@ class CartCard extends StatelessWidget {
           Column(
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  displayNoAccountPageOr(
+                      context: context,
+                      orDoAction: () {
+                        try {
+                          favoriteProvider.addOrRemovefromFavorite(
+                              product: cart.product);
+                        } catch (e) {
+                          showErrorMessage(e);
+                        }
+                      });
+                },
                 icon: Icon(
-                  Icons.favorite_border_rounded,
-                  color: kPrimaryColor,
+                  favoriteProvider.isFavorite(cart.product.id)
+                      ? Icons.favorite_rounded
+                      : Icons.favorite_border_rounded,
+                  color: DefaultElements.kPrimaryColor,
                 ),
               ),
             ],

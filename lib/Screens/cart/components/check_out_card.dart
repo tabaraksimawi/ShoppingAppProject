@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:myshopping_app/Component/Constatns.dart';
-import 'package:myshopping_app/Component/DefaultButton.dart';
-import 'package:myshopping_app/Models/Cart.dart';
 
-import '../../../SizeConfig.dart';
+import '../../../Providers/providers.dart';
+import '../../Core/core.dart';
+import '../../NoAccountWarning.dart';
 import '../AddressPage.dart';
 
 class CheckoutCard extends StatelessWidget {
@@ -13,8 +12,10 @@ class CheckoutCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double total = 0;
-    demoCarts.forEach((c) {
-      total = total + (double.parse(c.product.price) * c.quantity);
+
+    final cartItems = Provider.of<CartProvider>(context).cartItems;
+    cartItems.forEach((c) {
+      total = total + (c.product.price * c.quantity);
     });
     return Container(
       padding: EdgeInsets.symmetric(
@@ -59,7 +60,7 @@ class CheckoutCard extends StatelessWidget {
                 Icon(
                   Icons.arrow_forward_ios,
                   size: 12,
-                  color: kPrimaryColor,
+                  color: DefaultElements.kPrimaryColor,
                 )
               ],
             ),
@@ -82,9 +83,16 @@ class CheckoutCard extends StatelessWidget {
                   width: getProportionateScreenWidth(190),
                   child: DefaultButton(
                     text: "Check Out",
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(AddressPage.routeName);
-                    },
+                    onPressed: cartItems.isEmpty
+                        ? null
+                        : () {
+                            displayNoAccountPageOr(
+                                context: context,
+                                orDoAction: () {
+                                  Navigator.of(context)
+                                      .pushNamed(AddressPage.routeName);
+                                });
+                          },
                   ),
                 ),
               ],

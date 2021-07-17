@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myshopping_app/Component/DefaultElements.dart';
-import 'package:myshopping_app/Models/ProductModel.dart';
-import 'package:myshopping_app/Screens/ShoesCards.dart';
+import '../../Providers/providers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:myshopping_app/Models/CategoriesModel.dart';
 
+import '../Core/core.dart';
+import '../productCard.dart';
+import '../../data/Models/CategoriesModel.dart';
 import '../Search/Search.dart';
 
 class Body extends StatefulWidget {
@@ -13,109 +13,132 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  int selectedIndex = 0;
+  String selectedCategory = 'All';
+  ProductsProvider _productsProvider;
+
   @override
   Widget build(BuildContext context) {
-//     ProductProvider productProvider = Provider.of(context, );
-    // productProvider.fetchShoeProductData();
-    return Scaffold(
-      backgroundColor: DefaultElements.kdefaultbgcolor,
-      body: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildAppBar(),
-              buildProductSection(),
-              SizedBox(height: 20),
-              buildCategoriesSection(context),
-              SizedBox(height: 5),
-              Expanded(
-                child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: GridView.builder(
-                      itemCount: shoeListModel.length,
-                      gridDelegate:
-                          new SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.75,
-                      ),
-                      itemBuilder: (context, index) => ShoesCards(
-                        shoeListModel: shoeListModel[index],
-                        index: index,
-                      ),
-                    )),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+    _productsProvider = Provider.of<ProductsProvider>(context);
 
-  buildAppBar() {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(50),
-        child: Row(
+    return Scaffold(
+      appBar: buildAppBar(),
+      backgroundColor: DefaultElements.kdefaultbgcolor,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _productsProvider.getProducts();
+        },
+        child: ListView(
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Container(),
-            ),
-            RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                    text: "T",
-                    style: TextStyle(
-                      color: DefaultElements.kprimarycolor,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    )),
-                TextSpan(
-                  text: "J",
-                  style: TextStyle(
-                    color: DefaultElements.ksecondrycolor,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
+            Visibility(
+              visible: _productsProvider.initError != null,
+              child: Container(
+                height: 20,
+                color: DefaultElements.kdefaultredcolor,
+                child: Text(
+                  _productsProvider.initError ?? '',
+                  textAlign: TextAlign.center,
                 ),
-              ]),
-            ),
-            Expanded(
-              child: Container(),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Search()));
-              },
-              icon: SvgPicture.asset(
-                "assets/icons/search_icon.svg",
-                height: 25,
               ),
             ),
+            buildRecomendedItems(),
+            buildProductSection(),
+
+            // SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
 
-  Padding buildProductSection() {
-    return Padding(
-      padding: EdgeInsets.only(left: 25, top: 10, right: 25),
-      child: Row(
-        children: [
-          Text(
-            "Our Products",
+  AppBar buildAppBar() {
+    return AppBar(
+      title: RichText(
+        text: TextSpan(children: [
+          TextSpan(
+              text: "T",
+              style: TextStyle(
+                color: DefaultElements.kPrimaryColor,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              )),
+          TextSpan(
+            text: "J",
             style: TextStyle(
-              color: Colors.black,
-              fontSize: 25,
-              fontWeight: FontWeight.w900,
+              color: DefaultElements.kSecondryColor,
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        ],
+        ]),
       ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: IconButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Search()));
+            },
+            icon: SvgPicture.asset(
+              "assets/icons/search_icon.svg",
+              height: 25,
+            ),
+          ),
+        ),
+      ],
     );
+  }
+
+  Widget buildProductSection() {
+    final _desierdProducts = selectedCategory == 'All'
+        ? _productsProvider.products
+        : _productsProvider.products
+            .where((p) => p.categories.contains(selectedCategory))
+            .toList();
+    _desierdProducts
+        .sort((a, b) => b.avarrageRating.compareTo(a.avarrageRating));
+    return _productsProvider.controllerState == ControllerState.loading
+        ? Container()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 25, top: 10, right: 25),
+                child: Text(
+                  "Our Products",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              buildCategoriesSection(context),
+              SizedBox(height: 5),
+              SizedBox(
+                height: SizeConfig.screenHeight *
+                    (_desierdProducts.length / 2).round() *
+                    0.3,
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: GridView.builder(
+                      itemCount: _desierdProducts.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.75,
+                      ),
+                      itemBuilder: (context, index) => ProductCard(
+                        product: _desierdProducts[index],
+                        heroTag:
+                            '${_desierdProducts[index].productImage}Our_Products',
+                      ),
+                    )),
+              ),
+            ],
+          );
   }
 
   buildCategoriesSection(BuildContext context) {
@@ -126,27 +149,22 @@ class _BodyState extends State<Body> {
           itemCount: categoriesModel.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
+            int selectedIndex =
+                categoriesModel.indexWhere((c) => c.title == selectedCategory);
             return GestureDetector(
               onTap: () {
-                setState(() {
-                  selectedIndex = index;
-                });
+                setState(() => selectedCategory = categoriesModel[index].title);
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
                   width: 90,
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        selectedIndex == index
-                            ? BoxShadow(
-                                color: DefaultElements.knavbariconcolor,
-                                blurRadius: 10,
-                                offset: Offset(0, -1))
-                            : BoxShadow()
-                      ]),
+                    color: selectedIndex == index
+                        ? DefaultElements.kPrimaryColor
+                        : Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -154,15 +172,13 @@ class _BodyState extends State<Body> {
                         "${categoriesModel[index].image}",
                         height: 20,
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
+                      SizedBox(width: 5),
                       Text(
                         "${categoriesModel[index].title}",
                         style: TextStyle(
-                          color: selectedIndex == index
-                              ? DefaultElements.kprimarycolor
-                              : Colors.black,
+                          color: selectedIndex != index
+                              ? DefaultElements.kPrimaryColor
+                              : Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
                         ),
@@ -174,5 +190,50 @@ class _BodyState extends State<Body> {
             );
           },
         ));
+  }
+
+  buildRecomendedItems() {
+    final firstFour = _productsProvider.products.take(4).toList();
+    return _productsProvider.controllerState == ControllerState.loading
+        ? LoadingDialog(bgColor: Colors.transparent)
+        : SizedBox(
+            height: SizeConfig.screenHeight * 0.35,
+            child: Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Top Items",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                      itemCount: firstFour.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProductCard(
+                          product: firstFour[index],
+                          heroTag: '${firstFour[index].productImage}Top_Items',
+                        );
+                      },
+                      gridDelegate:
+                          new SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
+                        childAspectRatio: 1.5,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
