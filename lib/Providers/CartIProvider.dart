@@ -41,14 +41,14 @@ class CartProvider extends ChangeNotifier {
         final user = await LocalDatabase.getUser();
         _cartRepository = CartRepo(user.uid);
         final remoteCartItems = await _cartRepository.getCartItems();
-        //this condition will make sure to avid adding the item twice
+        //this condition will make sure to avoid adding the item twice
         // if it is present is in the local and remote data database
         if (localCartItems.isNotEmpty) {
           localCartItems.forEach((locItem) {
             if (!remoteCartItems
                 .any((remItem) => remItem.product.id == locItem.product.id)) {
               remoteCartItems.add(locItem);
-              //Aslo Add the local cart item to the remote Cart
+              //Also Add the local cart item to the remote Cart
               //in the database if it does not exist there
               _cartRepository.addToCart(cartItem: locItem);
             }

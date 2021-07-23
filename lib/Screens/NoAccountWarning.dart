@@ -38,7 +38,7 @@ class NoAccountWarningWidget extends StatelessWidget {
         Container(
           margin: EdgeInsets.symmetric(horizontal: 50),
           child: Center(
-            child: Image.asset("assets/images/splash_3.png"),
+            child: Image.asset("assets/images/noacc.png"),
           ),
         ),
         Text(

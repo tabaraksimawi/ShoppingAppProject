@@ -42,7 +42,7 @@ class ProductsRepo {
       return _productsListFromSnapshot(medSnapshot);
     } catch (e) {
       print(e);
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 
@@ -61,7 +61,7 @@ class ProductsRepo {
       var med = ProductModel.fromDocument(productDoc);
       return med;
     } catch (e) {
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 
@@ -79,7 +79,7 @@ class ProductsRepo {
       });
     } catch (e) {
       print(e);
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 }

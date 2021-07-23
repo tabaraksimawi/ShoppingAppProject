@@ -30,7 +30,7 @@ class FavoriteRepo {
       return favorite;
     } catch (e) {
       print(e);
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 
@@ -40,7 +40,7 @@ class FavoriteRepo {
       await _userFavoritesCollection.doc(favoriteId).delete();
     } catch (e) {
       print(e);
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 
@@ -58,7 +58,7 @@ class FavoriteRepo {
         return [];
     } catch (e) {
       print(e);
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 

@@ -166,7 +166,7 @@ class OrderCompletion extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 5),
               child: Center(
                 child: Image.asset(
-                  "assets/images/splash_2.png",
+                  "assets/images/order.png",
                 ),
               ),
             ),

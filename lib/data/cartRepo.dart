@@ -10,7 +10,7 @@ class CartRepo {
     _onInit(userId);
   }
 
-  ///to initalize [_userCartCollection] with access to user doc and his cart so you
+  ///to initialize [_userCartCollection] with access to user doc and his cart so you
   ///don't have to get user id each time you want to do something with the user's cart
   _onInit(String userId) async {
     _userCartCollection = FirebaseFirestore.instance
@@ -30,7 +30,7 @@ class CartRepo {
       return cartItem;
     } catch (e) {
       print(e);
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 
@@ -40,7 +40,7 @@ class CartRepo {
       await _userCartCollection.doc(cartItemId).delete();
     } catch (e) {
       print(e);
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 
@@ -55,7 +55,7 @@ class CartRepo {
           .set(cartItem.toDocMap());
     } catch (e) {
       print(e);
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 
@@ -73,7 +73,7 @@ class CartRepo {
         return [];
     } catch (e) {
       print(e);
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 
@@ -85,7 +85,7 @@ class CartRepo {
       }
     } catch (e) {
       print(e);
-      throw 'Unknown error, please try agan later';
+      throw 'Unknown error, please try again later';
     }
   }
 

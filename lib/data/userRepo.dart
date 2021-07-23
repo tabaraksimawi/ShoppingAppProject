@@ -87,7 +87,7 @@ class FirestoreUserDatabase {
     }
   }
 
-  ///this func. can be used to add new user or update an exsisting one
+  ///this func. can be used to add new user or update an existing one
   Future<UserModel> updateOrSetUserData({@required UserModel user}) async {
     try {
       await _usersCollection.doc(user.uid).set(user.toMap());
